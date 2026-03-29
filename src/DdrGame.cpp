@@ -1,6 +1,7 @@
 #include "DdrGame.h"
 
 #include "Display.h"
+#include "GameMusic.h"
 #include "HighScore.h"
 #include "Input.h"
 
@@ -313,10 +314,12 @@ namespace DdrGame {
 
 void run(ArcadeState& state) {
   initDdr();
+  GameMusic::playForGame(GameSelection::DDR_GAME);
   renderDdr();
 
   while (state.gameState == GameState::PLAYING && ddrRuntime.playing) {
     Input::poll(state);
+    GameMusic::update();
 
     if (state.buttonState == ButtonState::SEL) {
       ddrRuntime.playing = false;
@@ -336,6 +339,7 @@ void run(ArcadeState& state) {
     delay(1);
   }
 
+  GameMusic::stop();
   HighScore::update(GameSelection::DDR_GAME,
                     static_cast<uint32_t>(ddrRuntime.score));
 }

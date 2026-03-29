@@ -12,8 +12,8 @@
 namespace {
 
 constexpr uint8_t kMenuScoreTextSize = 1;
-constexpr int16_t kMenuScoreX = 15;
-constexpr int16_t kMenuScoreY = 50;
+constexpr int16_t kMenuScoreX = 75;
+constexpr int16_t kMenuScoreY = 56;
 
 void drawMenuScoreText(const char* scoreText) {
   Adafruit_SSD1306& display = Display::instance();

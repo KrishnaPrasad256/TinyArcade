@@ -32,22 +32,6 @@ void drawText(uint8_t textSize, int16_t x, int16_t y, const char* text) {
   display.display();
 }
 
-void fadeIn() {
-  for (int contrast = 0; contrast <= 255; ++contrast) {
-    display.ssd1306_command(SSD1306_SETCONTRAST);
-    display.ssd1306_command(contrast);
-    delay(10);
-  }
-}
-
-void fadeOut() {
-  for (int contrast = 255; contrast >= 0; --contrast) {
-    display.ssd1306_command(SSD1306_SETCONTRAST);
-    display.ssd1306_command(contrast);
-    delay(10);
-  }
-}
-
 void clearScreen() {
   display.clearDisplay();
   display.display();

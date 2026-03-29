@@ -3,6 +3,7 @@
 #include "ArcadeTypes.h"
 #include "DdrGame.h"
 #include "Display.h"
+#include "GameMusic.h"
 #include "HighScore.h"
 #include "Input.h"
 #include "Menu.h"
@@ -33,6 +34,7 @@ void setup() {
   arcadeState = ArcadeState{};
 
   Input::init();
+  GameMusic::init();
 
   if (!Display::begin()) {
     Serial.println("SSD1306 NOT FOUND!");
@@ -45,11 +47,8 @@ void setup() {
   }
 
   Menu::showLogo();
-  Display::fadeIn();
-  delay(2000);
   Display::drawText(1, 15, 55, "Click any Button");
   Menu::waitForAnyButton(arcadeState);
-  Display::fadeOut();
   Display::clearScreen();
   Display::resetContrast();
 }

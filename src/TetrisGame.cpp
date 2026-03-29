@@ -1,6 +1,7 @@
 #include "TetrisGame.h"
 
 #include "Display.h"
+#include "GameMusic.h"
 #include "HighScore.h"
 #include "Input.h"
 
@@ -428,17 +429,20 @@ namespace TetrisGame {
 void run(ArcadeState& state) {
   initTetris(state);
   if (!tetrisRuntime.playing) {
+    GameMusic::stop();
     HighScore::update(GameSelection::TETRIS,
                       static_cast<uint32_t>(tetrisRuntime.score));
     return;
   }
 
+  GameMusic::playForGame(GameSelection::TETRIS);
   renderTetris();
 
   while (state.gameState == GameState::PLAYING && tetrisRuntime.playing) {
     const unsigned long currentTimeMs = millis();
 
     Input::poll(state);
+    GameMusic::update();
     handleInput(state, currentTimeMs);
 
     if (!tetrisRuntime.playing || state.gameState != GameState::PLAYING) {
@@ -469,6 +473,7 @@ void run(ArcadeState& state) {
     delay(1);
   }
 
+  GameMusic::stop();
   HighScore::update(GameSelection::TETRIS,
                     static_cast<uint32_t>(tetrisRuntime.score));
 }
