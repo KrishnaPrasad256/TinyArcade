@@ -14,6 +14,7 @@
                 "C:/Users/krish/OneDrive/Documents/PlatformIO/Projects/Tiny_Arcade/.pio/libdeps/esp32dev/Adafruit BusIO",
                 "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                 "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
+                "C:/Users/krish/OneDrive/Documents/PlatformIO/Projects/Tiny_Arcade/include",
                 "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                 "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                 "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -252,6 +253,7 @@
                     "C:/Users/krish/OneDrive/Documents/PlatformIO/Projects/Tiny_Arcade/.pio/libdeps/esp32dev/Adafruit BusIO",
                     "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                     "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
+                    "C:/Users/krish/OneDrive/Documents/PlatformIO/Projects/Tiny_Arcade/include",
                     "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                     "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                     "C:/Users/krish/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -483,7 +485,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60119",
+                "PLATFORMIO=60116",
                 "ARDUINO_ESP32_DEV",
                 "SSD1306_128_64",
                 "ARDUINO=10805",
