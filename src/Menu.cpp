@@ -5,6 +5,7 @@
 #include "Bitmaps.h"
 #include "DdrGame.h"
 #include "Display.h"
+#include "GameMusic.h"
 #include "HighScore.h"
 #include "Input.h"
 #include "TetrisGame.h"
@@ -98,10 +99,12 @@ void waitForAnyButton(ArcadeState& state) {
 }
 
 void runMainMenu(ArcadeState& state) {
+  GameMusic::playMenuMusic();
   renderMainMenu(state);
 
   while (state.gameState == GameState::MENU) {
     Input::poll(state);
+    GameMusic::update();
 
     if (state.buttonState == ButtonState::DOWN ||
         state.buttonState == ButtonState::UP) {
@@ -128,12 +131,14 @@ void runMainMenu(ArcadeState& state) {
 }
 
 void runGameOverMenu(ArcadeState& state) {
+  GameMusic::playMenuMusic();
   Display::drawFullScreenBitmap(Bitmaps::kGameOverBitmap);
   drawGameOverScore(state);
   state.buttonState = ButtonState::NON;
 
   while (state.gameState == GameState::GAME_OVER) {
     Input::poll(state);
+    GameMusic::update();
 
     if (state.buttonState == ButtonState::SEL) {
       state.buttonState = ButtonState::NON;
@@ -145,6 +150,7 @@ void runGameOverMenu(ArcadeState& state) {
 }
 
 void runGamesMenu(ArcadeState& state) {
+  GameMusic::playMenuMusic();
   bool esc = false;
 
   while (!esc) {
@@ -152,6 +158,7 @@ void runGamesMenu(ArcadeState& state) {
 
     for (;;) {
       Input::poll(state);
+      GameMusic::update();
 
       if (state.buttonState == ButtonState::DOWN ||
           state.buttonState == ButtonState::UP) {

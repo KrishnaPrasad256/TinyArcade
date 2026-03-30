@@ -20,15 +20,19 @@ constexpr uint16_t kNoteA4 = 440;
 constexpr uint16_t kNoteA5 = 880;
 constexpr uint16_t kNoteB3 = 247;
 constexpr uint16_t kNoteB4 = 494;
+constexpr uint16_t kNoteCs4 = 277;
+constexpr uint16_t kNoteCs5 = 554;
 constexpr uint16_t kNoteC4 = 262;
 constexpr uint16_t kNoteC5 = 523;
 constexpr uint16_t kNoteC6 = 1047;
 constexpr uint16_t kNoteD4 = 294;
 constexpr uint16_t kNoteD5 = 587;
+constexpr uint16_t kNoteDs4 = 311;
 constexpr uint16_t kNoteE4 = 330;
 constexpr uint16_t kNoteE5 = 659;
 constexpr uint16_t kNoteF4 = 349;
 constexpr uint16_t kNoteF5 = 698;
+constexpr uint16_t kNoteFs4 = 370;
 constexpr uint16_t kNoteG4 = 392;
 constexpr uint16_t kNoteG5 = 784;
 constexpr uint16_t kNoteGs5 = 831;
@@ -172,11 +176,51 @@ static constexpr NoteEvent kTetrisTheme[] = {
 
 #undef NOTE_EVENT
 
+#define MENU_NOTE_EVENT(note, divider) \
+  NoteEvent { note, divider }
+
+static constexpr NoteEvent kMenuTheme[] = {
+    // Phrase 1: main motif
+    MENU_NOTE_EVENT(kNoteB3, 4),  MENU_NOTE_EVENT(kNoteE4, 4),
+    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteFs4, 4),
+    MENU_NOTE_EVENT(kNoteE4, 4),  MENU_NOTE_EVENT(kNoteFs4, 2),
+    MENU_NOTE_EVENT(kNoteB3, 4),  MENU_NOTE_EVENT(kNoteE4, 4),
+    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteB4, 4),
+    MENU_NOTE_EVENT(kNoteA4, 4),  MENU_NOTE_EVENT(kNoteGs4, 4),
+    MENU_NOTE_EVENT(kNoteFs4, 4), MENU_NOTE_EVENT(kNoteE4, 1),
+    MENU_NOTE_EVENT(kNoteRest, 2),
+
+    // Phrase 2: bridge response
+    MENU_NOTE_EVENT(kNoteCs4, 4), MENU_NOTE_EVENT(kNoteDs4, 4),
+    MENU_NOTE_EVENT(kNoteE4, 2),  MENU_NOTE_EVENT(kNoteFs4, 2),
+    MENU_NOTE_EVENT(kNoteDs4, 2), MENU_NOTE_EVENT(kNoteB3, 1),
+    MENU_NOTE_EVENT(kNoteRest, 2),
+
+    // Phrase 3: ascending variation
+    MENU_NOTE_EVENT(kNoteE4, 4),  MENU_NOTE_EVENT(kNoteGs4, 4),
+    MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteCs5, 2),
+    MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteA4, 4),
+    MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteFs4, 2),
+    MENU_NOTE_EVENT(kNoteE4, 1),  MENU_NOTE_EVENT(kNoteRest, 4),
+
+    // Phrase 4: descending resolution
+    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteFs4, 2),
+    MENU_NOTE_EVENT(kNoteE4, 2),  MENU_NOTE_EVENT(kNoteDs4, 2),
+    MENU_NOTE_EVENT(kNoteCs4, 1),
+
+    // Trailing silence before restart
+    MENU_NOTE_EVENT(kNoteRest, 1), MENU_NOTE_EVENT(kNoteRest, 1)};
+
+#undef MENU_NOTE_EVENT
+
 constexpr ThemeData kDdrThemeData = {
     kDdrTheme, sizeof(kDdrTheme) / sizeof(kDdrTheme[0]), 120, 0};
 
 constexpr ThemeData kTetrisThemeData = {
     kTetrisTheme, sizeof(kTetrisTheme) / sizeof(kTetrisTheme[0]), 144, 700};
+
+constexpr ThemeData kMenuThemeData = {
+  kMenuTheme, sizeof(kMenuTheme) / sizeof(kMenuTheme[0]), 75, 2000};
 
 PlaybackState playbackState;
 
@@ -250,16 +294,34 @@ namespace GameMusic {
 
 void init() { ensureInitialized(); }
 
+void playMenuMusic() {
+  ensureInitialized();
+
+  if (playbackState.playing && playbackState.theme == &kMenuThemeData) {
+    return;
+  }
+
+  playbackState.theme = &kMenuThemeData;
+  playbackState.noteIndex = 0;
+  playbackState.playing = true;
+  startCurrentNote(millis());
+}
+
 void playForGame(GameSelection game) {
   ensureInitialized();
-  playbackState.theme = themeForGame(game);
-  playbackState.noteIndex = 0;
-  playbackState.playing = playbackState.theme != nullptr;
-
-  if (!playbackState.playing) {
+  const ThemeData* selectedTheme = themeForGame(game);
+  if (selectedTheme == nullptr) {
     stop();
     return;
   }
+
+  if (playbackState.playing && playbackState.theme == selectedTheme) {
+    return;
+  }
+
+  playbackState.theme = selectedTheme;
+  playbackState.noteIndex = 0;
+  playbackState.playing = true;
 
   startCurrentNote(millis());
 }
