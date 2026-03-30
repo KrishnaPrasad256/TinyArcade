@@ -54,6 +54,26 @@ void renderMainMenu(const ArcadeState& state) {
   drawMenuScoreText(highScoreText);
 }
 
+void drawGameOverScore(const ArcadeState& state) {
+  constexpr uint8_t kGameOverScoreTextSize = 1;
+  constexpr int16_t kGameOverScoreX = 15;
+  constexpr int16_t kGameOverScoreY = 50;
+
+  Adafruit_SSD1306& display = Display::instance();
+  display.setTextSize(kGameOverScoreTextSize);
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextWrap(false);
+  display.setCursor(kGameOverScoreX, kGameOverScoreY);
+
+  const int currentScore = state.selectedGame == GameSelection::DDR_GAME
+                               ? DdrGame::currentScore()
+                               : TetrisGame::currentScore();
+  char scoreText[12];
+  snprintf(scoreText, sizeof(scoreText), "%d", currentScore);
+  display.print(scoreText);
+  display.display();
+}
+
 void renderGamesMenu(const ArcadeState& state) {
   if (state.selectedGame == GameSelection::TETRIS) {
     Display::drawFullScreenBitmap(Bitmaps::kTetrisSelectedBitmap);
@@ -109,14 +129,19 @@ void runMainMenu(ArcadeState& state) {
 
 void runGameOverMenu(ArcadeState& state) {
   Display::drawFullScreenBitmap(Bitmaps::kGameOverBitmap);
-  char currentScoreText[12];
-  formatCurrentScoreText(state, currentScoreText, sizeof(currentScoreText));
-  drawMenuScoreText(currentScoreText);
+  drawGameOverScore(state);
   state.buttonState = ButtonState::NON;
-  waitForAnyButton(state);
-  state.buttonState = ButtonState::NON;
-  state.menuButton = MenuButton::PLAY;
-  state.gameState = GameState::MENU;
+
+  while (state.gameState == GameState::GAME_OVER) {
+    Input::poll(state);
+
+    if (state.buttonState == ButtonState::SEL) {
+      state.buttonState = ButtonState::NON;
+      state.menuButton = MenuButton::PLAY;
+      state.gameState = GameState::MENU;
+      return;
+    }
+  }
 }
 
 void runGamesMenu(ArcadeState& state) {
