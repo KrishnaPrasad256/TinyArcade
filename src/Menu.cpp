@@ -131,7 +131,7 @@ void runMainMenu(ArcadeState& state) {
 }
 
 void runGameOverMenu(ArcadeState& state) {
-  GameMusic::playMenuMusic();
+  GameMusic::playGameOverMusic();
   Display::drawFullScreenBitmap(Bitmaps::kGameOverBitmap);
   drawGameOverScore(state);
   state.buttonState = ButtonState::NON;
