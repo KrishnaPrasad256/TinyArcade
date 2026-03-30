@@ -34,11 +34,19 @@ void formatCurrentScoreText(const ArcadeState& state, char* buffer,
 }
 
 void renderMainMenu(const ArcadeState& state) {
-  if (state.menuButton == MenuButton::PLAY) {
-    Display::drawFullScreenBitmap(Bitmaps::kMenuPlayBitmap);
+  const uint8_t* bitmap = nullptr;
+  
+  if (state.selectedGame == GameSelection::TETRIS) {
+    bitmap = state.menuButton == MenuButton::PLAY
+                 ? Bitmaps::kTetrisPlayBitmap
+                 : Bitmaps::kTetrisExitBitmap;
   } else {
-    Display::drawFullScreenBitmap(Bitmaps::kMenuExitBitmap);
+    bitmap = state.menuButton == MenuButton::PLAY
+                 ? Bitmaps::kDdrPlayBitmap
+                 : Bitmaps::kDdrExitBitmap;
   }
+  
+  Display::drawFullScreenBitmap(bitmap);
 
   char highScoreText[12];
   HighScore::formatForMenu(state.selectedGame, highScoreText,
