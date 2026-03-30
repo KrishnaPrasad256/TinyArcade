@@ -11,6 +11,7 @@ namespace {
 constexpr uint8_t kBuzzerPin = ARCADE_BUZZER_PIN;
 constexpr uint16_t kNoteRest = 0;
 constexpr uint16_t kNoteC3 = 131;
+constexpr uint16_t kNoteE3 = 165;
 constexpr uint16_t kNoteF3 = 175;
 constexpr uint16_t kNoteG3 = 196;
 constexpr uint16_t kNoteGs3 = 208;
@@ -28,14 +29,17 @@ constexpr uint16_t kNoteC6 = 1047;
 constexpr uint16_t kNoteD4 = 294;
 constexpr uint16_t kNoteD5 = 587;
 constexpr uint16_t kNoteDs4 = 311;
+constexpr uint16_t kNoteDs5 = 622;
 constexpr uint16_t kNoteE4 = 330;
 constexpr uint16_t kNoteE5 = 659;
 constexpr uint16_t kNoteF4 = 349;
 constexpr uint16_t kNoteF5 = 698;
 constexpr uint16_t kNoteFs4 = 370;
+constexpr uint16_t kNoteFs5 = 740;
 constexpr uint16_t kNoteG4 = 392;
 constexpr uint16_t kNoteG5 = 784;
 constexpr uint16_t kNoteGs5 = 831;
+constexpr unsigned long kGameMusicStartDelayMs = 450;
 
 struct NoteEvent {
   uint16_t frequency;
@@ -180,7 +184,7 @@ static constexpr NoteEvent kTetrisTheme[] = {
   NoteEvent { note, divider }
 
 static constexpr NoteEvent kMenuTheme[] = {
-    // Phrase 1: main motif
+    // Phrase 1: Main motif
     MENU_NOTE_EVENT(kNoteB3, 4),  MENU_NOTE_EVENT(kNoteE4, 4),
     MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteFs4, 4),
     MENU_NOTE_EVENT(kNoteE4, 4),  MENU_NOTE_EVENT(kNoteFs4, 2),
@@ -190,26 +194,56 @@ static constexpr NoteEvent kMenuTheme[] = {
     MENU_NOTE_EVENT(kNoteFs4, 4), MENU_NOTE_EVENT(kNoteE4, 1),
     MENU_NOTE_EVENT(kNoteRest, 2),
 
-    // Phrase 2: bridge response
+    // Phrase 2: Bridge response
     MENU_NOTE_EVENT(kNoteCs4, 4), MENU_NOTE_EVENT(kNoteDs4, 4),
     MENU_NOTE_EVENT(kNoteE4, 2),  MENU_NOTE_EVENT(kNoteFs4, 2),
     MENU_NOTE_EVENT(kNoteDs4, 2), MENU_NOTE_EVENT(kNoteB3, 1),
     MENU_NOTE_EVENT(kNoteRest, 2),
 
-    // Phrase 3: ascending variation
+    // Phrase 3: Ascending variation
     MENU_NOTE_EVENT(kNoteE4, 4),  MENU_NOTE_EVENT(kNoteGs4, 4),
     MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteCs5, 2),
     MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteA4, 4),
     MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteFs4, 2),
     MENU_NOTE_EVENT(kNoteE4, 1),  MENU_NOTE_EVENT(kNoteRest, 4),
 
-    // Phrase 4: descending resolution
+    // Phrase 4: Descending resolution
     MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteFs4, 2),
     MENU_NOTE_EVENT(kNoteE4, 2),  MENU_NOTE_EVENT(kNoteDs4, 2),
-    MENU_NOTE_EVENT(kNoteCs4, 1),
+    MENU_NOTE_EVENT(kNoteCs4, 1), MENU_NOTE_EVENT(kNoteRest, 2),
+
+    // Phrase 5: Development section (higher register shift)
+    MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteA4, 4),
+    MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteE5, 2),
+    MENU_NOTE_EVENT(kNoteDs5, 2), MENU_NOTE_EVENT(kNoteCs5, 4),
+    MENU_NOTE_EVENT(kNoteB4, 4),  MENU_NOTE_EVENT(kNoteA4, 2),
+    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteFs4, 1),
+    MENU_NOTE_EVENT(kNoteRest, 2),
+
+    // Phrase 6: Climactic ascent
+    MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteA4, 4),
+    MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteE5, 2),
+    MENU_NOTE_EVENT(kNoteFs5, 2), MENU_NOTE_EVENT(kNoteGs5, 2),
+    MENU_NOTE_EVENT(kNoteFs5, 4), MENU_NOTE_EVENT(kNoteE5, 4),
+    MENU_NOTE_EVENT(kNoteDs5, 2), MENU_NOTE_EVENT(kNoteCs5, 1),
+    MENU_NOTE_EVENT(kNoteRest, 4),
+
+    // Phrase 7: Return to main motif variation
+    MENU_NOTE_EVENT(kNoteB3, 4),  MENU_NOTE_EVENT(kNoteE4, 4),
+    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteB4, 4),
+    MENU_NOTE_EVENT(kNoteA4, 4),  MENU_NOTE_EVENT(kNoteGs4, 4),
+    MENU_NOTE_EVENT(kNoteFs4, 4), MENU_NOTE_EVENT(kNoteE4, 1),
+    MENU_NOTE_EVENT(kNoteRest, 2),
+
+    // Phrase 8: Final gentle resolution
+    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteA4, 2),
+    MENU_NOTE_EVENT(kNoteB4, 1),  MENU_NOTE_EVENT(kNoteA4, 4),
+    MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteFs4, 2),
+    MENU_NOTE_EVENT(kNoteE4, 1),
 
     // Trailing silence before restart
-    MENU_NOTE_EVENT(kNoteRest, 1), MENU_NOTE_EVENT(kNoteRest, 1)};
+    MENU_NOTE_EVENT(kNoteRest, 1), MENU_NOTE_EVENT(kNoteRest, 1)
+};
 
 #undef MENU_NOTE_EVENT
 
@@ -221,6 +255,48 @@ constexpr ThemeData kTetrisThemeData = {
 
 constexpr ThemeData kMenuThemeData = {
   kMenuTheme, sizeof(kMenuTheme) / sizeof(kMenuTheme[0]), 75, 2000};
+
+#define GAME_OVER_WHOLE(note) \
+  NoteEvent { note, 1 }
+#define GAME_OVER_HALF(note) \
+  NoteEvent { note, 2 }
+#define GAME_OVER_QUARTER(note) \
+  NoteEvent { note, 4 }
+#define GAME_OVER_REST(divider) \
+  NoteEvent { kNoteRest, divider }
+
+static constexpr NoteEvent kGameOverTheme[] = {
+    // Phrase 1: Ascending A minor arpeggio to descending lament.
+    GAME_OVER_QUARTER(kNoteA3), GAME_OVER_QUARTER(kNoteC4),
+    GAME_OVER_QUARTER(kNoteE4), GAME_OVER_QUARTER(kNoteA4),
+    GAME_OVER_HALF(kNoteGs4),    GAME_OVER_HALF(kNoteF4),
+    GAME_OVER_WHOLE(kNoteE4),    GAME_OVER_REST(1),
+
+    // Phrase 2: D minor color, higher reach, then fall.
+    GAME_OVER_QUARTER(kNoteD4), GAME_OVER_QUARTER(kNoteF4),
+    GAME_OVER_QUARTER(kNoteA4), GAME_OVER_QUARTER(kNoteC5),
+    GAME_OVER_HALF(kNoteB4),    GAME_OVER_HALF(kNoteA4),
+    GAME_OVER_WHOLE(kNoteGs4),  GAME_OVER_REST(1),
+
+    // Phrase 3: Briefly brighter shape before returning down.
+    GAME_OVER_QUARTER(kNoteF3), GAME_OVER_QUARTER(kNoteA3),
+    GAME_OVER_QUARTER(kNoteC4), GAME_OVER_QUARTER(kNoteF4),
+    GAME_OVER_HALF(kNoteE4),    GAME_OVER_HALF(kNoteD4),
+    GAME_OVER_WHOLE(kNoteC4),   GAME_OVER_REST(2),
+
+    // Phrase 4: Final cadence to low tonic and spaced loop.
+    GAME_OVER_HALF(kNoteB3), GAME_OVER_HALF(kNoteE3),
+    GAME_OVER_WHOLE(kNoteA3),
+    GAME_OVER_REST(1), GAME_OVER_REST(1), GAME_OVER_REST(1)};
+
+#undef GAME_OVER_WHOLE
+#undef GAME_OVER_HALF
+#undef GAME_OVER_QUARTER
+#undef GAME_OVER_REST
+
+constexpr ThemeData kGameOverThemeData = {
+    kGameOverTheme, sizeof(kGameOverTheme) / sizeof(kGameOverTheme[0]), 40,
+    0};
 
 PlaybackState playbackState;
 
@@ -288,6 +364,25 @@ void ensureInitialized() {
   playbackState.initialized = true;
 }
 
+void startThemePlayback(const ThemeData* theme, unsigned long startupDelayMs) {
+  if (theme == nullptr) {
+    return;
+  }
+
+  playbackState.theme = theme;
+  playbackState.noteIndex = 0;
+  playbackState.playing = true;
+  playbackState.noteStartedMs = millis();
+  playbackState.noteLengthMs = startupDelayMs;
+
+  if (startupDelayMs == 0) {
+    startCurrentNote(playbackState.noteStartedMs);
+    return;
+  }
+
+  noTone(kBuzzerPin);
+}
+
 }  // namespace
 
 namespace GameMusic {
@@ -301,10 +396,17 @@ void playMenuMusic() {
     return;
   }
 
-  playbackState.theme = &kMenuThemeData;
-  playbackState.noteIndex = 0;
-  playbackState.playing = true;
-  startCurrentNote(millis());
+  startThemePlayback(&kMenuThemeData, 0);
+}
+
+void playGameOverMusic() {
+  ensureInitialized();
+
+  if (playbackState.playing && playbackState.theme == &kGameOverThemeData) {
+    return;
+  }
+
+  startThemePlayback(&kGameOverThemeData, 0);
 }
 
 void playForGame(GameSelection game) {
@@ -319,11 +421,7 @@ void playForGame(GameSelection game) {
     return;
   }
 
-  playbackState.theme = selectedTheme;
-  playbackState.noteIndex = 0;
-  playbackState.playing = true;
-
-  startCurrentNote(millis());
+  startThemePlayback(selectedTheme, kGameMusicStartDelayMs);
 }
 
 void update() {
