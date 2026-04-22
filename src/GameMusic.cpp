@@ -184,65 +184,7 @@ static constexpr NoteEvent kTetrisTheme[] = {
   NoteEvent { note, divider }
 
 static constexpr NoteEvent kMenuTheme[] = {
-    // Phrase 1: Main motif
-    MENU_NOTE_EVENT(kNoteB3, 4),  MENU_NOTE_EVENT(kNoteE4, 4),
-    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteFs4, 4),
-    MENU_NOTE_EVENT(kNoteE4, 4),  MENU_NOTE_EVENT(kNoteFs4, 2),
-    MENU_NOTE_EVENT(kNoteB3, 4),  MENU_NOTE_EVENT(kNoteE4, 4),
-    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteB4, 4),
-    MENU_NOTE_EVENT(kNoteA4, 4),  MENU_NOTE_EVENT(kNoteGs4, 4),
-    MENU_NOTE_EVENT(kNoteFs4, 4), MENU_NOTE_EVENT(kNoteE4, 1),
-    MENU_NOTE_EVENT(kNoteRest, 2),
 
-    // Phrase 2: Bridge response
-    MENU_NOTE_EVENT(kNoteCs4, 4), MENU_NOTE_EVENT(kNoteDs4, 4),
-    MENU_NOTE_EVENT(kNoteE4, 2),  MENU_NOTE_EVENT(kNoteFs4, 2),
-    MENU_NOTE_EVENT(kNoteDs4, 2), MENU_NOTE_EVENT(kNoteB3, 1),
-    MENU_NOTE_EVENT(kNoteRest, 2),
-
-    // Phrase 3: Ascending variation
-    MENU_NOTE_EVENT(kNoteE4, 4),  MENU_NOTE_EVENT(kNoteGs4, 4),
-    MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteCs5, 2),
-    MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteA4, 4),
-    MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteFs4, 2),
-    MENU_NOTE_EVENT(kNoteE4, 1),  MENU_NOTE_EVENT(kNoteRest, 4),
-
-    // Phrase 4: Descending resolution
-    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteFs4, 2),
-    MENU_NOTE_EVENT(kNoteE4, 2),  MENU_NOTE_EVENT(kNoteDs4, 2),
-    MENU_NOTE_EVENT(kNoteCs4, 1), MENU_NOTE_EVENT(kNoteRest, 2),
-
-    // Phrase 5: Development section (higher register shift)
-    MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteA4, 4),
-    MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteE5, 2),
-    MENU_NOTE_EVENT(kNoteDs5, 2), MENU_NOTE_EVENT(kNoteCs5, 4),
-    MENU_NOTE_EVENT(kNoteB4, 4),  MENU_NOTE_EVENT(kNoteA4, 2),
-    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteFs4, 1),
-    MENU_NOTE_EVENT(kNoteRest, 2),
-
-    // Phrase 6: Climactic ascent
-    MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteA4, 4),
-    MENU_NOTE_EVENT(kNoteB4, 2),  MENU_NOTE_EVENT(kNoteE5, 2),
-    MENU_NOTE_EVENT(kNoteFs5, 2), MENU_NOTE_EVENT(kNoteGs5, 2),
-    MENU_NOTE_EVENT(kNoteFs5, 4), MENU_NOTE_EVENT(kNoteE5, 4),
-    MENU_NOTE_EVENT(kNoteDs5, 2), MENU_NOTE_EVENT(kNoteCs5, 1),
-    MENU_NOTE_EVENT(kNoteRest, 4),
-
-    // Phrase 7: Return to main motif variation
-    MENU_NOTE_EVENT(kNoteB3, 4),  MENU_NOTE_EVENT(kNoteE4, 4),
-    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteB4, 4),
-    MENU_NOTE_EVENT(kNoteA4, 4),  MENU_NOTE_EVENT(kNoteGs4, 4),
-    MENU_NOTE_EVENT(kNoteFs4, 4), MENU_NOTE_EVENT(kNoteE4, 1),
-    MENU_NOTE_EVENT(kNoteRest, 2),
-
-    // Phrase 8: Final gentle resolution
-    MENU_NOTE_EVENT(kNoteGs4, 2), MENU_NOTE_EVENT(kNoteA4, 2),
-    MENU_NOTE_EVENT(kNoteB4, 1),  MENU_NOTE_EVENT(kNoteA4, 4),
-    MENU_NOTE_EVENT(kNoteGs4, 4), MENU_NOTE_EVENT(kNoteFs4, 2),
-    MENU_NOTE_EVENT(kNoteE4, 1),
-
-    // Trailing silence before restart
-    MENU_NOTE_EVENT(kNoteRest, 1), MENU_NOTE_EVENT(kNoteRest, 1)
 };
 
 #undef MENU_NOTE_EVENT

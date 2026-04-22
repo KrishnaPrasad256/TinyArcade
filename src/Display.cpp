@@ -6,6 +6,8 @@ namespace {
 
 constexpr int kOledReset = -1;
 constexpr uint8_t kOledAddress = 0x3C;
+constexpr int kSdaPin = 0;   // GPIO 0 for SDA (ESP32C3)
+constexpr int kSclPin = 1;   // GPIO 1 for SCL (ESP32C3)
 
 Adafruit_SSD1306 display(Display::kScreenWidth, Display::kScreenHeight, &Wire,
                          kOledReset);
@@ -14,7 +16,10 @@ Adafruit_SSD1306 display(Display::kScreenWidth, Display::kScreenHeight, &Wire,
 
 namespace Display {
 
-bool begin() { return display.begin(SSD1306_SWITCHCAPVCC, kOledAddress); }
+bool begin() {
+  Wire.begin(kSdaPin, kSclPin);
+  return display.begin(SSD1306_SWITCHCAPVCC, kOledAddress);
+}
 
 Adafruit_SSD1306& instance() { return display; }
 

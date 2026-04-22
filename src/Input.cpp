@@ -3,7 +3,7 @@
 namespace {
 
 constexpr uint8_t kButtonCount = 5;
-constexpr int kPins[kButtonCount] = {4, 5, 18, 19, 23};
+constexpr int kPins[kButtonCount] = {4, 3, 5, 6, 7};//DOWN,UP,LEFT,RIGHT,SELECT
 constexpr unsigned long kDebounceDelayMs = 50;
 
 bool buttonPressed(int pin, uint8_t index) {
