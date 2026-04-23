@@ -18,4 +18,4 @@ A mini handheld game console with an ESP32-C3.
 - DDR
 
 ### Schematic Diagram
-<img width="1169" height="827" alt="Schematic_TinyArcade_2026-04-18" src="https://github.com/user-attachments/assets/87beebfd-b7df-4815-a8d8-16beaad741ea" />
+<img width="1169" height="827" alt="Schematic_TinyArcade_2026-04-23" src="https://github.com/user-attachments/assets/d67af9fa-8337-4b73-a3f6-675a83517912" />
